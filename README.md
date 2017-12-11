@@ -1,2 +1,2 @@
-# ETA-heating-integration
+# ETA-heating-controll
 Using the ETA RESTful API
