@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import requests
+import xml.etree.ElementTree as ET
 
 # Replace the ip address with the local address of your ETA heating
 url='http://192.168.178.46:8080'
@@ -17,10 +18,26 @@ variableset='/user/vars'
 # This resource identifies the active errors in the CAN system.
 errors='/user/errors'
 
-response = requests.get(url+apiversion)
-print(response.status_code)
+tempOutside='/40/10241/0/0/12197'
+system='/40/10241'
 
+request = url+menutree
+response = requests.get(request)
 if response.ok:
-    print(response.content)
-    
-    
+    parser = ET.XMLParser(target=ET.TreeBuilder(), encoding='UTF-8')
+    root = ET.XML(response.content, parser=parser)
+    for child_one in root:
+        for child_two in child_one:
+            print(child_two.attrib)
+            if child_two.attrib['name']=='Sys':
+                for child_three in child_two:
+                    for child_four in child_three:
+                        print(child_four.attrib['name'])
+                        #if child_four.attrib['name'] == 'Au?entemeperatur':
+                        #    print('child four')
+                        #    tempOutside=child_tree.attrib['uri']
+                    print(child_three.tag)
+                
+        
+
+
