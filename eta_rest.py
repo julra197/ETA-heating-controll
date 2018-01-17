@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# -*- coding: iso-8859-1 -*-
+
 import requests
 import xml.etree.ElementTree as ET
 
@@ -28,16 +30,27 @@ if response.ok:
     root = ET.XML(response.content, parser=parser)
     for child_one in root:
         for child_two in child_one:
-            print(child_two.attrib)
-            if child_two.attrib['name']=='Sys':
+            if child_two.attrib['name']=='Lager':
                 for child_three in child_two:
-                    for child_four in child_three:
-                        print(child_four.attrib['name'])
-                        #if child_four.attrib['name'] == 'Au?entemeperatur':
-                        #    print('child four')
-                        #    tempOutside=child_tree.attrib['uri']
-                    print(child_three.tag)
+                    if child_three.attrib['name']=='Vorrat':
+                        vorrat = child_three.attrib['uri']
+            #if child_two.attrib['name']=='Sys':
+            #    for child_three in child_two:
+            #        for child_four in child_three:
+            #            print(child_four.attrib['name'])
+            #            if child_four.attrib['name'] == 'Au?entemeperatur':
+            #                print('child four')
+            #                tempOutside=child_tree.attrib['uri']
+            #        print(child_three.tag)
                 
-        
+request = url+variable+vorrat
+response = requests.get(request)
+if response.ok:
+    parser = ET.XMLParser(target=ET.TreeBuilder(), encoding='UTF-8')
+    root = ET.XML(response.content, parser=parser)
+    size = int(root[0].text)
+    print('Der aktuelle Lagerstand betraegt',size/10, 'kg')
+    
+    
 
 
