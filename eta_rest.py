@@ -25,31 +25,35 @@ system='/40/10241'
 
 request = url+menutree
 response = requests.get(request)
+print(response.encoding)
 if response.ok:
-    parser = ET.XMLParser(target=ET.TreeBuilder(), encoding='UTF-8')
-    root = ET.XML(response.content, parser=parser)
-    for child_one in root:
-        for child_two in child_one:
-            if child_two.attrib['name']=='Lager':
-                for child_three in child_two:
-                    if child_three.attrib['name']=='Vorrat':
-                        vorrat = child_three.attrib['uri']
-            #if child_two.attrib['name']=='Sys':
-            #    for child_three in child_two:
-            #        for child_four in child_three:
-            #            print(child_four.attrib['name'])
-            #            if child_four.attrib['name'] == 'Au?entemeperatur':
-            #                print('child four')
-            #                tempOutside=child_tree.attrib['uri']
-            #        print(child_three.tag)
-                
-request = url+variable+vorrat
-response = requests.get(request)
-if response.ok:
-    parser = ET.XMLParser(target=ET.TreeBuilder(), encoding='UTF-8')
-    root = ET.XML(response.content, parser=parser)
-    size = int(root[0].text)
-    print('Der aktuelle Lagerstand betraegt',size/10, 'kg')
+    #parser = ET.XMLParser(target=ET.TreeBuilder(), encoding='utf-8')
+    #root = ET.parse(response.content)
+    response.encoding = 'utf-8'
+    astring = response.text
+    print(response.text)
+#    for child_one in root:
+#        for child_two in child_one:
+#            if child_two.attrib['name']=='Lager':
+#                for child_three in child_two:
+#                    if child_three.attrib['name']=='Vorrat':
+#                        vorrat = child_three.attrib['uri']
+#            #if child_two.attrib['name']=='Sys':
+#            #    for child_three in child_two:
+#            #        for child_four in child_three:
+#            #            print(child_four.attrib['name'])
+#            #            if child_four.attrib['name'] == 'Auﬂentemeperatur':
+#            #                print('child four')
+#            #                tempOutside=child_tree.attrib['uri']
+#            #        print(child_three.tag)
+#                
+#request = url+variable+vorrat
+#response = requests.get(request)
+#if response.ok:
+#    parser = ET.XMLParser(target=ET.TreeBuilder(), encoding='UTF-8')
+#    root = ET.XML(response.content, parser=parser)
+#    size = int(root[0].text)
+#    print('Der aktuelle Lagerstand betraegt',size/10, 'kg')
     
     
 
